@@ -45,6 +45,7 @@ local plugins = {
   -- ==========================================
   {
     "nvim-lualine/lualine.nvim",
+    dependencies = { "catppuccin" }, -- 确保主题在 lualine 之前加载，解决 Theme not found 报错
     config = function()
       require("plugins.lualine")
     end
