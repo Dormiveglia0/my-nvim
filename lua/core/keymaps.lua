@@ -1,36 +1,112 @@
 vim.g.mapleader = " "
 
-local keymap = vim.keymap
+local keymap = vim.keymap.set
 
--- ---------- 插入模式 ---------- ---
-keymap.set("i", "jk", "<ESC>")
+-- 默认选项
+local opts = { noremap = true, silent = true }
 
--- ---------- 视觉模式 ---------- ---
--- 单行或多行移动
-keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+-- =========================================================
+-- 插入模式
+-- =========================================================
 
--- ---------- 正常模式 ---------- ---
--- 窗口
-keymap.set("n", "<leader>sv", "<C-w>v") -- 水平新增窗口 
-keymap.set("n", "<leader>sh", "<C-w>s") -- 垂直新增窗口
+-- jk 快速退出插入模式
+keymap("i", "jk", "<ESC>", opts)
 
--- 取消高亮
-keymap.set("n", "<leader>nh", ":nohl<CR>")
+-- =========================================================
+-- 视觉模式
+-- =========================================================
 
--- H移动行首 
-keymap.set({"n", "v"}, "H", "^")
--- L移动行尾
-keymap.set({"n", "v"}, "L", "$")
+-- 选中文本向下移动
+keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
 
--- 空格 + d (或 D) 进行“不留痕迹的纯删除”
-keymap.set({"n", "v"}, "<leader>d", '"_d', opt)
-keymap.set({"n", "v"}, "<leader>D", '"_D', opt)
--- 将单字符删除 x 彻底丢进黑洞，禁止它污染剪贴板
-keymap.set({"n", "v"}, "x", '"_x', opt)
-keymap.set({"n", "v"}, "X", '"_X', opt) 
--- 修改 C 的默认行为，修改文本时不存入剪贴板
-keymap.set({"n", "v"}, "c", '"_c', opt)
-keymap.set({"n", "v"}, "C", '"_C', opt)
--- 可视模式下按 p 粘贴覆盖时，不让被覆盖的内容进入剪贴板！
-keymap.set("v", "p", '"_dP', opt)
+-- 选中文本向上移动
+keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
+
+-- =========================================================
+-- 正常模式
+-- =========================================================
+
+-- ---------------------------
+-- 窗口分屏（旧的）
+-- ---------------------------
+
+keymap("n", "<leader>sv", "<C-w>v", opts) -- 左右分屏
+keymap("n", "<leader>sh", "<C-w>s", opts) -- 上下分屏
+
+-- ---------------------------
+-- 取消搜索高亮
+-- ---------------------------
+
+keymap("n", "<leader>nh", ":nohl<CR>", opts)
+
+-- ---------------------------
+-- 行首行尾
+-- ---------------------------
+
+keymap({ "n", "v" }, "H", "^", opts) -- 行首
+keymap({ "n", "v" }, "L", "$", opts) -- 行尾
+
+-- =========================================================
+-- 黑洞删除（不污染剪贴板）
+-- =========================================================
+
+-- leader d 删除但不进入剪贴板
+keymap({ "n", "v" }, "<leader>d", '"_d', opts)
+
+-- leader D 删除到行尾
+keymap({ "n", "v" }, "<leader>D", '"_D', opts)
+
+-- 单字符删除
+keymap({ "n", "v" }, "x", '"_x', opts)
+keymap({ "n", "v" }, "X", '"_X', opts)
+
+-- 修改行为
+keymap({ "n", "v" }, "c", '"_c', opts)
+keymap({ "n", "v" }, "C", '"_C', opts)
+
+-- 可视模式粘贴不污染剪贴板
+keymap("v", "p", '"_dP', opts)
+
+-- =========================================================
+-- Window Keymaps (leader + w)
+-- =========================================================
+
+-- ---------------------------
+-- 窗口移动
+-- ---------------------------
+
+keymap("n", "<leader>wh", "<C-w>h", { desc = "Move to left window" })
+keymap("n", "<leader>wj", "<C-w>j", { desc = "Move to lower window" })
+keymap("n", "<leader>wk", "<C-w>k", { desc = "Move to upper window" })
+keymap("n", "<leader>wl", "<C-w>l", { desc = "Move to right window" })
+
+-- ---------------------------
+-- 窗口切换
+-- ---------------------------
+
+keymap("n", "<leader>ww", "<C-w>w", { desc = "Switch window" })
+keymap("n", "<leader>wp", "<C-w>p", { desc = "Previous window" })
+
+-- ---------------------------
+-- 窗口分割
+-- ---------------------------
+
+keymap("n", "<leader>wv", "<C-w>v", { desc = "Vertical split" })
+keymap("n", "<leader>ws", "<C-w>s", { desc = "Horizontal split" })
+
+-- ---------------------------
+-- 窗口关闭
+-- ---------------------------
+
+keymap("n", "<leader>wc", "<C-w>c", { desc = "Close window" })
+keymap("n", "<leader>wo", "<C-w>o", { desc = "Only window" })
+
+-- ---------------------------
+-- 窗口大小
+-- ---------------------------
+keymap("n", "<leader>wH", "<C-w>5>", { desc = "Increase width" })
+keymap("n", "<leader>wL", "<C-w>5<", { desc = "Decrease width" })
+keymap("n", "<leader>wJ", "<C-w>3+", { desc = "Increase height" })
+keymap("n", "<leader>wK", "<C-w>3-", { desc = "Decrease height" })
+-- 平均窗口
+keymap("n", "<leader>w=", "<C-w>=", { desc = "Equal window size", })
