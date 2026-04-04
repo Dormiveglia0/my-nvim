@@ -1,21 +1,19 @@
-require("plugins.plugins-setup")
+-- lazy.nvim Standard Bootstrap
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
+-- Load Core Config (before plugins)
 require("core.options")
 require("core.keymaps")
-require("plugins.lualine")
-require("plugins.nvim-tree")
--- require("plugins.treesitter")
-require("plugins.lsp")
-require("plugins.cmp")
-require("plugins.comment")
-require("plugins.autopairs")
-require("plugins.bufferline")
-require("plugins.toggleterm")
-require("plugins.smear-cursor")
 
-require("plugins.noice")
-require("plugins.dashboard")
-require("plugins.render-markdown")
-require("plugins.indent-blankline")
-require("plugins.aerial")
-require("plugins.gitsigns")
+-- Setup lazy.nvim to load all files in lua/plugins/
+require("lazy").setup("plugins", {
+  change_detection = { enabled = true, notify = false },
+})
