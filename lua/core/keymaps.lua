@@ -27,22 +27,13 @@ keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
 -- =========================================================
 
 -- ---------------------------
--- 窗口分屏（旧的）
--- ---------------------------
-
-keymap("n", "<leader>sv", "<C-w>v", opts) -- 左右分屏
-keymap("n", "<leader>sh", "<C-w>s", opts) -- 上下分屏
-
--- ---------------------------
 -- 取消搜索高亮
 -- ---------------------------
-
 keymap("n", "<leader>nh", ":nohl<CR>", opts)
 
 -- ---------------------------
 -- 行首行尾
 -- ---------------------------
-
 keymap({ "n", "v" }, "H", "^", opts) -- 行首
 keymap({ "n", "v" }, "L", "$", opts) -- 行尾
 
@@ -74,7 +65,6 @@ keymap("v", "p", '"_dP', opts)
 -- ---------------------------
 -- 窗口移动
 -- ---------------------------
-
 keymap("n", "<leader>wh", "<C-w>h", { desc = "Move to left window" })
 keymap("n", "<leader>wj", "<C-w>j", { desc = "Move to lower window" })
 keymap("n", "<leader>wk", "<C-w>k", { desc = "Move to upper window" })
@@ -83,21 +73,18 @@ keymap("n", "<leader>wl", "<C-w>l", { desc = "Move to right window" })
 -- ---------------------------
 -- 窗口切换
 -- ---------------------------
-
 keymap("n", "<leader>ww", "<C-w>w", { desc = "Switch window" })
 keymap("n", "<leader>wp", "<C-w>p", { desc = "Previous window" })
 
 -- ---------------------------
 -- 窗口分割
 -- ---------------------------
-
 keymap("n", "<leader>wv", "<C-w>v", { desc = "Vertical split" })
 keymap("n", "<leader>ws", "<C-w>s", { desc = "Horizontal split" })
 
 -- ---------------------------
 -- 窗口关闭
 -- ---------------------------
-
 keymap("n", "<leader>wc", "<C-w>c", { desc = "Close window" })
 keymap("n", "<leader>wo", "<C-w>o", { desc = "Only window" })
 
@@ -108,5 +95,6 @@ keymap("n", "<leader>wH", "<C-w>5>", { desc = "Increase width" })
 keymap("n", "<leader>wL", "<C-w>5<", { desc = "Decrease width" })
 keymap("n", "<leader>wJ", "<C-w>3+", { desc = "Increase height" })
 keymap("n", "<leader>wK", "<C-w>3-", { desc = "Decrease height" })
+
 -- 平均窗口
-keymap("n", "<leader>w=", "<C-w>=", { desc = "Equal window size", })
+keymap("n", "<leader>w=", "<C-w>=", { desc = "Equal window size" })
