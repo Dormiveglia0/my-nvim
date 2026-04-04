@@ -5,7 +5,7 @@ opt.relativenumber = true
 opt.number = true
 
 -- 缩进
-opt.tabstop = 4        -- 制表符显示为4个空格宽
+opt.tabstop = 2        -- 制表符显示为4个空格宽
 opt.shiftwidth = 4     -- 用于自动缩进的宽度
 opt.expandtab = false  -- 使用制表符进行缩进
 opt.autoindent = true
