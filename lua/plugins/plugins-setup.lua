@@ -64,17 +64,23 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ':TSUpdate',
-    main = "nvim-treesitter.configs", -- 让 lazy.nvim 自动处理 require
-    opts = {
-      ensure_installed = { 
-          "vim", "vimdoc", "bash", "c", "cpp", "javascript", 
-          "json", "lua", "python", "typescript","css", "rust", 
-          "markdown", "markdown_inline" 
-      },
-      highlight = { enable = true },
-      indent = { enable = true },
-      auto_install = true,
-    },
+    config = function()
+      -- 使用 pcall 安全加载，防止首次安装时报错
+      local status_ok, configs = pcall(require, "nvim-treesitter.configs")
+      if not status_ok then
+        return -- 首次启动时静默跳过，等待插件下载完成
+      end
+      configs.setup({
+        ensure_installed = { 
+            "vim", "vimdoc", "bash", "c", "cpp", "javascript", 
+            "json", "lua", "python", "typescript","css", "rust", 
+            "markdown", "markdown_inline" 
+        },
+        highlight = { enable = true },
+        indent = { enable = true },
+        auto_install = true,
+      })
+    end,
   },
   'HiPhish/rainbow-delimiters.nvim',
 
@@ -152,6 +158,13 @@ local plugins = {
     event = "VeryLazy",
     dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
     config = function()
+      -- 修复 notify 在透明背景下的报错
+      local notify_status_ok, notify = pcall(require, "notify")
+      if notify_status_ok then
+        notify.setup({
+          background_colour = "#000000",
+        })
+      end
       require("plugins.noice")
     end
   },
