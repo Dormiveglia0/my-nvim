@@ -1,7 +1,11 @@
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-local cmp_nvim_lsp_status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if cmp_nvim_lsp_status_ok then
-    capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+-- ==========================================================
+-- 🌟 适配 Blink.cmp 的 capabilities
+-- ==========================================================
+local blink_status_ok, blink = pcall(require, 'blink.cmp')
+if blink_status_ok then
+    capabilities = blink.get_lsp_capabilities(capabilities)
 end
 
 local mason_status_ok, mason = pcall(require, "mason")

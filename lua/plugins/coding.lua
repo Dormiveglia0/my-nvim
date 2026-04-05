@@ -10,19 +10,41 @@ return {
     end
   },
 
+  -- ==========================================
+  -- 🌟 核心替换：Blink.cmp (替代 nvim-cmp)
+  -- ==========================================
   {
-    "hrsh7th/nvim-cmp",
+    'saghen/blink.cmp',
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-cmdline",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "rafamadriz/friendly-snippets",
-      "hrsh7th/cmp-path",
+      'rafamadriz/friendly-snippets',
+      -- 移除了 LuaSnip，Blink 内置了极速的 snippet 引擎
     },
-    config = function()
-      require("plugin_configs.cmp")
-    end
+    version = '*',
+    opts = {
+      -- 快捷键映射 (类似你之前的配置)
+      keymap = {
+        preset = 'default',
+        ['<CR>'] = { 'accept', 'fallback' },
+        ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+        ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+        ['<C-e>'] = { 'cancel', 'fallback' },
+      },
+      
+      -- UI 外观配置
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = 'mono'
+      },
+      
+      -- 补全来源配置
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+      },
+
+      -- 签名帮助 (写函数时提示参数)
+      signature = { enabled = true }
+    },
+    opts_extend = { "sources.default" }
   },
 
   {
@@ -39,9 +61,6 @@ return {
     end
   },
 
-  -- ==========================================
-  -- 🌟 新增的专业格式化工具 Conform
-  -- ==========================================
   {
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
@@ -49,8 +68,6 @@ return {
       require("conform").setup({
         format_on_save = {
           timeout_ms = 500,
-          -- 这里的 lsp_fallback = true 完美解决了你的顾虑：
-          -- 如果找不到专门的格式化工具，它会自动回退使用 LSP 进行格式化！
           lsp_fallback = true,
         },
         formatters_by_ft = {
