@@ -1,6 +1,5 @@
 -- =====================================================================
 -- 全局拦截 Neovim 0.11 的烦人废弃警告 (lspconfig 和 vim.tbl_flatten)
--- 这样可以彻底消除启动时的红字和 lualine 的 notice
 -- =====================================================================
 local orig_deprecate = vim.deprecate
 if orig_deprecate then
@@ -16,4 +15,24 @@ end
 
 require("core.options")
 require("core.keymaps")
-require("plugins.plugins-setup")
+
+-- ==============================================
+-- 自动安装 lazy.nvim 插件管理器
+-- ==============================================
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- ==============================================
+-- 启动 lazy.nvim 引擎，自动加载 lua/plugins/ 下的所有文件
+-- ==============================================
+require("lazy").setup("plugins")
