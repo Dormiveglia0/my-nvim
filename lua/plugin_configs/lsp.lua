@@ -53,7 +53,7 @@ if lspconfig_status_ok then
                         }
                     }
                 }),
-                cmd = { "clangd-18" },
+                cmd = { "clangd" },
                 filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
                 root_dir = lspconfig.util.root_pattern("compile_commands.json", ".git"),
                 single_file_support = true,
