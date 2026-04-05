@@ -21,6 +21,19 @@ opt.mouse:append("a")
 -- 系统剪贴板
 opt.clipboard:append("unnamedplus")
 
+-- 强制 Neovim 使用 OSC 52 与终端通信来实现剪贴板同步
+vim.g.clipboard = {
+  name = 'OSC 52',
+  copy = {
+    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+  },
+  paste = {
+    ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+  },
+}
+
 -- 默认新窗口右和下
 opt.splitright = true
 opt.splitbelow = true
