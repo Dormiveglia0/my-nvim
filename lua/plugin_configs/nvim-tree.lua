@@ -10,13 +10,30 @@ local function my_on_attach(bufnr)
 		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
 	end
 
-	-- 1. 载入默认的快捷键 (保留大部分原生功能，如 a 新建, d 删除, r 重命名)
 	api.config.mappings.default_on_attach(bufnr)
 
-	-- 2. 覆盖/添加你想要的 yazi 风格快捷键
+	local function open_and_step_in()
+		local node = api.tree.get_node_under_cursor()
 
-	-- 'l' 键：如果是目录则打开/展开；如果是文件则打开并在右侧编辑
-	vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
+		if node.nodes ~= nil then
+			-- 如果是目录
+			if not node.open then
+				-- 如果目录未展开，先展开它
+				api.node.open.edit()
+				-- 展开后，光标向下移动一行，正好落在第一个子文件/子目录上
+				vim.cmd("normal! j")
+			else
+				-- 如果目录已经展开了，直接向下移动一行进去
+				vim.cmd("normal! j")
+			end
+		else
+			-- 如果是普通文件，直接打开它
+			api.node.open.edit()
+		end
+	end
+
+	-- 绑定增强版的 l 键
+	vim.keymap.set("n", "l", open_and_step_in, opts("Open and Step In"))
 
 	-- 'h' 键：关闭当前目录，或者返回上一级目录
 	vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close Directory"))
