@@ -34,8 +34,19 @@ keymap("n", "<leader>nh", ":nohl<CR>", opts)
 -- ---------------------------
 -- 行首行尾
 -- ---------------------------
-keymap({ "n", "v" }, "H", "^", opts) -- 行首
-keymap({ "n", "v" }, "L", "$", opts) -- 行尾
+-- 智能行首：第一次按 H 跳到代码开头(^)，再按一次跳到绝对行首(0)
+keymap({ "n", "v" }, "H", function()
+	local current_col = vim.fn.col(".")
+	local first_non_blank = vim.fn.match(vim.fn.getline("."), "\\S") + 1
+	if current_col == first_non_blank then
+		vim.cmd("normal! 0") -- 如果已经在代码开头，跳到绝对行首
+	else
+		vim.cmd("normal! ^") -- 否则跳到代码开头
+	end
+end, { noremap = true, silent = true, desc = "Smart line start" })
+
+-- 行尾保持不变
+keymap({ "n", "v" }, "L", "$", opts)
 
 -- =========================================================
 -- 黑洞删除（不污染剪贴板）
