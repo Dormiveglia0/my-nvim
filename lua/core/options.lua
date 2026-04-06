@@ -29,8 +29,13 @@ vim.g.clipboard = {
 		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
 	},
 	paste = {
-		["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-		["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+		-- 放弃向终端请求，直接返回 Neovim 内部寄存器 (") 的内容
+		["+"] = function()
+			return vim.fn.getreg('"', 1, true)
+		end,
+		["*"] = function()
+			return vim.fn.getreg('"', 1, true)
+		end,
 	},
 }
 -- 默认新窗口右和下
