@@ -13,31 +13,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		config = function()
-			local status_ok, configs = pcall(require, "nvim-treesitter.configs")
-			if not status_ok then
-				return
-			end
-			configs.setup({
-				ensure_installed = {
-					"vim",
-					"vimdoc",
-					"bash",
-					"c",
-					"cpp",
-					"javascript",
-					"json",
-					"lua",
-					"python",
-					"typescript",
-					"css",
-					"rust",
-					"markdown",
-					"markdown_inline",
-				},
-				highlight = { enable = true },
-				indent = { enable = true },
-				auto_install = true,
-			})
+			require("plugin_configs.treesitter")
 		end,
 	},
 

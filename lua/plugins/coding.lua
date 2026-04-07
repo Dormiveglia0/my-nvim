@@ -40,34 +40,22 @@ return {
 	},
 
 	-- ==========================================
-	-- 🌟 新增的专业格式化工具 Conform
+	-- 🌟 专业格式化工具 Conform (配合 mason-conform 实现零配置)
 	-- ==========================================
 	{
 		"stevearc/conform.nvim",
 		event = { "BufReadPre", "BufNewFile" },
+		dependencies = { "zapling/mason-conform.nvim" }, -- 引入自动桥接插件
 		config = function()
 			require("conform").setup({
 				format_on_save = {
-					timeout_ms = 500,
-					-- 这里的 lsp_fallback = true 完美解决了你的顾虑：
-					-- 如果找不到专门的格式化工具，它会自动回退使用 LSP 进行格式化！
+					timeout_ms = 2500,
 					lsp_fallback = true,
 				},
-				formatters_by_ft = {
-					lua = { "stylua" },
-					javascript = { "prettierd" },
-					typescript = { "prettierd" },
-					javascriptreact = { "prettierd" },
-					typescriptreact = { "prettierd" },
-					vue = { "prettierd" },
-					css = { "prettierd" },
-					html = { "prettierd" },
-					json = { "prettierd" },
-					markdown = { "prettierd" },
-					cpp = { "clang-format" },
-					c = { "clang-format" },
-				},
 			})
+
+			-- 让 mason 自动把安装的工具注册给 conform
+			require("mason-conform").setup()
 		end,
 	},
 }
