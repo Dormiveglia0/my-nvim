@@ -36,7 +36,9 @@ configs.setup({
 	},
 })
 
--- 强制指定编译器，防止它去找 cli
+
+
+-- 恢复你之前的编译器设置，因为这并不是导致报错的根本原因
 local install_status_ok, ts_install = pcall(require, "nvim-treesitter.install")
 if install_status_ok then
 	ts_install.compilers = { "gcc", "clang", "cc" }
