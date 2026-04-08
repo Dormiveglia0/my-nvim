@@ -64,3 +64,22 @@ vim.opt.fillchars:append({
 vim.cmd([[
   highlight WinSeparator guifg=#c6a0f6 gui=bold
 ]])
+
+
+-- =========================================================
+-- 自定义文件类型检测 (Filetype Detection)
+-- =========================================================
+vim.filetype.add({
+	pattern = {
+		-- 匹配所有包含 nginx 的 .conf 文件路径，或者默认的 nginx.conf
+		[".*nginx.*%.conf"] = "nginx",
+		[".*/etc/nginx/.*"] = "nginx",
+		["nginx%.conf"] = "nginx",
+		[".*%.conf"] = function(path, bufnr)
+			-- 如果文件路径里包含 nginx，或者是常见的 nginx 配置目录
+			if path:match("nginx") or path:match("conf%.d") then
+				return "nginx"
+			end
+		end,
+	},
+})
