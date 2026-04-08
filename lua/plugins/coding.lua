@@ -52,6 +52,9 @@ return {
 					timeout_ms = 2500,
 					lsp_fallback = true,
 				},
+				formatters_by_ft = {
+					nginx = { "nginxfmt" }, -- 或者 "nginxfmt"
+				},
 			})
 
 			-- 让 mason 自动把安装的工具注册给 conform
