@@ -52,6 +52,8 @@ return {
 					timeout_ms = 2500,
 					lsp_fallback = true,
 				},
+                -- 默认配置，即使没有指定 formatter，也会尝试使用 lsp_fallback
+                -- 你可以在这里添加特定的 formatter，但 mason-conform 会自动处理大部分
 			})
 
 			-- 让 mason 自动把安装的工具注册给 conform

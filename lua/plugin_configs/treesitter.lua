@@ -4,8 +4,11 @@ if not status_ok then
 end
 
 configs.setup({
-	-- 添加不同语言
-	ensure_installed = {
+	-- 自动安装所有语言
+	auto_install = true,
+    
+    -- 确保安装基础语言
+    ensure_installed = {
 		"vim",
 		"vimdoc",
 		"bash",
@@ -21,14 +24,11 @@ configs.setup({
 		"rust",
 		"markdown",
 		"markdown_inline",
-		"vue",
 		"html",
-		"nginx",
 	},
 
 	highlight = { enable = true },
 	indent = { enable = true },
-	auto_install = false,
 
 	-- 强制使用 git 和本地编译器，同时明确指定编译器
 	install = {
