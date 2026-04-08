@@ -119,3 +119,42 @@ keymap("n", "<S-Tab>", ":bprevious<CR>", opts)
 -- leader + e 呼出/隐藏文件树 (e 代表 explorer)
 keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 keymap("t", "<leader>\\\\", "<C-\\><C-n>", opts) -- 在终端里按 jk 回到普通模式
+-- LSP 快捷键 (LSP Keymaps)
+-- 使用 LspAttach 确保只有在 LSP 启动的文件中，这些快捷键才生效
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = function(ev)
+		-- 注意：这里必须用 buffer = ev.buf，表示这些快捷键只在当前启用了 LSP 的 buffer 生效
+		local lsp_opts = { buffer = ev.buf, silent = true }
+
+		-- 批量重命名变量 (Rename)
+		keymap("n", "<leader>rn", vim.lsp.buf.rename, lsp_opts)
+
+		-- 跳转到定义 (Go to Definition)
+		keymap("n", "gd", vim.lsp.buf.definition, lsp_opts)
+
+		-- 查看悬浮文档 (Hover)
+		keymap("n", "K", vim.lsp.buf.hover, lsp_opts)
+
+		-- 代码动作 (Code Action，比如自动修复报错、自动导入包)
+		keymap("n", "<leader>ca", vim.lsp.buf.code_action, lsp_opts)
+
+		-- 查看所有引用 (Go to References)
+		keymap("n", "gr", vim.lsp.buf.references, lsp_opts)
+	end,
+})
+
+-- 诊断信息 (Diagnostics) 快捷键
+-- 1. 查看当前行的错误/警告详情（弹出悬浮窗，最常用！）
+keymap("n", "gl", vim.diagnostic.open_float, { desc = "Show diagnostic details" })
+
+-- 2. 跳转到上一个/下一个错误或警告（并在跳转后自动显示详情）
+keymap("n", "[d", function()
+	vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = "Previous diagnostic" })
+keymap("n", "]d", function()
+	vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Next diagnostic" })
+-- 3. 在底部打开一个列表，显示当前文件的所有错误和警告
+keymap("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Show diagnostics list" })
+keymap("n", "<leader>fd", "<cmd>Telescope diagnostics<CR>", { desc = "Find Diagnostics" })
